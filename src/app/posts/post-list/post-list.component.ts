@@ -9,14 +9,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./post-list.component.css']
 })
 export class PostListComponent implements OnInit, OnDestroy{
-  // posts=[
-  //   {title: 'Post', content: 'This is a post'},
-  //   {title: 'Post', content: 'This is a post'},
-  //   {title: 'Post', content: 'This is a post'},
-  //   {title: 'Post', content: 'This is a post'}
-  // ]
-  
-
+ 
   posts:Post[] = []
 
   private postSub!: Subscription;
@@ -24,7 +17,7 @@ export class PostListComponent implements OnInit, OnDestroy{
   }
   
   ngOnInit() {
-    this.posts = this.postsService.getPosts(); //fetching all thh posts
+    this.postsService.getPosts(); //fetching all thh posts
     this.postSub = this.postsService.getPostUpdateListener()
       .subscribe((posts: Post[]) => {
         this.posts =  posts;
