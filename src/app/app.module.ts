@@ -15,11 +15,13 @@ import { PostListComponent } from './posts/post-list/post-list.component';
 import { PostsService } from './posts/posts.service';
 
 import { HttpClientModule } from '@angular/common/http'
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [AppComponent, PostCreateComponent, HeaderComponent, PostListComponent],
   imports: [
     BrowserModule,
+    AppRoutingModule,
     FormsModule,
     BrowserAnimationsModule,
     MatInputModule,
