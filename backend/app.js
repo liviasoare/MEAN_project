@@ -45,11 +45,11 @@ app.post("/api/posts", (req, res, next) => {
     content: req.body.content,
   });
 
-  // console.log(post);
-  post.save(); //saving the post in the DB
-
-  res.status(201).json({
-    message: "Post added!",
+  post.save().then((createdPost) => {
+    res.status(201).json({
+      message: "Post added!",
+      postId: createdPost._id
+    });
   });
 });
 
