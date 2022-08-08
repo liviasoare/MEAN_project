@@ -1,7 +1,22 @@
 const express = require("express");
 const bodyParser = require('body-parser');
 
+const mongoose = require('mongoose');
+
+const Post =  require('./models/post');
+
 const app = express();
+
+// ! MongoDB details 
+// ! username: admin
+// ! password: B8JVST5j4WSta5LE
+mongoose.connect("mongodb+srv://admin:B8JVST5j4WSta5LE@atlascluster.ranwmtu.mongodb.net/node-angular?retryWrites=true&w=majority")
+  .then(() => {
+    console.log("Connected to the database!");
+  })
+  .catch(() => {
+    console.log('Connection failed.');
+  });
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -20,42 +35,29 @@ app.use((req, res, next) => {
 
 
 app.post('/api/posts', (req,res,next) => {
-  const post = req.body;
-  console.log(post)
+  const post = new Post({
+    title: req.body.title,
+    content: req.body.content
+  });
+
+  // console.log(post);
+  post.save(); //saving the post in the DB
+
   res.status(201).json({
     message: 'Post added!'
   });
 })
 
 app.get("/api/posts", (req, res, next) => {
-  const posts = [
-    {
-      id: "gi2gi1bikboxw",
-      title: "First server-side post",
-      content: "This is coming from the server!",
-    },
-    {
-      id: "aekjvnaodlvnald33",
-      title: "Second server-side post",
-      content: "This is coming from the server!!",
-    },
-    {
-      id: "akjb35rbfso8",
-      title: "Third server-side post",
-      content: "This is coming from the server!!!",
-    },
-    {
-      id: "sdjvno48tghn",
-      title: "Fourth server-side post",
-      content: "This is coming from the server!!!!",
-    },
-  ];
+  // DUMMY DATA
 
-  // returning message + post
-  res.status(200).json({
-    message: "Post fetched succesfully",
-    posts: posts,
-  });
+  Post.find()
+    .then(documents => {
+      res.status(200).json({
+        message: "Post fetched succesfully",
+        posts: documents,
+      });
+    });
 });
 
 module.exports = app;
